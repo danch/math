@@ -1,0 +1,9 @@
+/bin/
+/.settings/
+/target/
+/pom.xml
+/test/
+/.gradle/
+/build
+/target
+/generated/
