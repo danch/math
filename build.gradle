@@ -30,9 +30,8 @@ sourceSets {
 	}
 }
 
-
 //artifacts {
-//    archives math-jar
+//   archives math-jar
 //}
 
 publishing {
