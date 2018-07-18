@@ -37,6 +37,8 @@ sourceSets {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            artifactId 'math'
+
             from components.java
         }
     }
