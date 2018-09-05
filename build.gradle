@@ -38,8 +38,10 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifactId 'math'
-
             from components.java
+	    pom {
+		description = 'Algebraic expression evaluation and differentiation'
+	    }
         }
     }
 }
