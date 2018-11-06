@@ -26,7 +26,7 @@ public class Product extends Formula {
 		this.components = new ArrayList<>(components);
 	}
 	@Override
-	public double evaluate(BiFunction<Character, Integer, Double> variableBinder) {
+	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
 		return components.stream().map(formula -> formula.evaluate(variableBinder)).reduce((left, right) -> left * right).get();
 	}
 
@@ -88,7 +88,7 @@ public class Product extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, Integer, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
 		components.forEach(formula -> formula.bindVariablesAsConstants(series, variableBinder));
 	}
 

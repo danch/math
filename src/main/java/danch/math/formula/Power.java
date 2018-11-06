@@ -25,7 +25,7 @@ public class Power extends Formula {
 		return "("+baseString + ")" + expString;
 	}
 	@Override
-	public double evaluate(BiFunction<Character, Integer, Double> variableBinder) {
+	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
 		return Math.pow(base.evaluate(variableBinder), exponent.evaluate(variableBinder));
 	}
 
@@ -96,7 +96,7 @@ public class Power extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, Integer, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
 		base.bindVariablesAsConstants(series, variableBinder);
 		exponent.bindVariablesAsConstants(series, variableBinder);
 	}
