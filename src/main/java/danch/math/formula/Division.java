@@ -13,7 +13,7 @@ public class Division extends Formula {
 	}
 
 	@Override
-	public double evaluate(BiFunction<Character, Integer, Double> variableBinder) {
+	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
 		return numerator.evaluate(variableBinder) / denominator.evaluate(variableBinder);
 	}
 	
@@ -64,7 +64,7 @@ public class Division extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, Integer, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
 		numerator.bindVariablesAsConstants(series, variableBinder);
 		denominator.bindVariablesAsConstants(series, variableBinder);
 	}
