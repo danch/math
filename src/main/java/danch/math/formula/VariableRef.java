@@ -7,6 +7,11 @@ public class VariableRef extends Formula {
 	private char seriesSymbol;
 	private int[] indices;
 	private Optional<Double> boundValue = Optional.empty();
+
+	public VariableRef(char symbol, int[] indices) {
+		this.seriesSymbol = symbol;
+		this.indices = indices;
+	}
 	
 	public VariableRef(char symbol, int index) {
 		this.seriesSymbol = symbol;
