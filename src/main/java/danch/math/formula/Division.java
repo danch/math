@@ -1,6 +1,7 @@
 package danch.math.formula;
 
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 
 public class Division extends Formula {
@@ -13,7 +14,7 @@ public class Division extends Formula {
 	}
 
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		return numerator.evaluate(variableBinder) / denominator.evaluate(variableBinder);
 	}
 	
@@ -64,7 +65,7 @@ public class Division extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		numerator.bindVariablesAsConstants(series, variableBinder);
 		denominator.bindVariablesAsConstants(series, variableBinder);
 	}

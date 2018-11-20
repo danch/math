@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Product extends Formula {
@@ -26,7 +27,7 @@ public class Product extends Formula {
 		this.components = new ArrayList<>(components);
 	}
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		return components.stream().map(formula -> formula.evaluate(variableBinder)).reduce((left, right) -> left * right).get();
 	}
 
@@ -88,7 +89,7 @@ public class Product extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		components.forEach(formula -> formula.bindVariablesAsConstants(series, variableBinder));
 	}
 

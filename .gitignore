@@ -7,3 +7,6 @@
 /build
 /target
 /generated/
+/.idea
+*.iml
+/out

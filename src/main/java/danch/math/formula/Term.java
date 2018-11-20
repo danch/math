@@ -2,6 +2,7 @@ package danch.math.formula;
 
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Term extends Formula {
 	Optional<Formula> coefficient;
@@ -20,7 +21,7 @@ public class Term extends Formula {
 	}
 
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		double expExpansion = Math.pow(variable.map(var -> var.evaluate(variableBinder)).orElse(1.0d), 
 				exponent.map(exp->exp.evaluate(variableBinder)).orElse(1.0d));
 		return expExpansion * coefficient.map(co -> co.evaluate(variableBinder)).orElse(1.0).doubleValue();
@@ -80,7 +81,7 @@ public class Term extends Formula {
 		return new Term(Optional.of(newCoefficient), variable, exponent);
 	}
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		coefficient.ifPresent(co->co.bindVariablesAsConstants(series, variableBinder));
 		variable.ifPresent(var->var.bindVariablesAsConstants(series, variableBinder));
 		exponent.ifPresent(exp->exp.bindVariablesAsConstants(series, variableBinder));

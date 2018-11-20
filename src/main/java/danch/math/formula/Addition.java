@@ -1,6 +1,7 @@
 package danch.math.formula;
 
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Addition extends Formula {
 	Formula left;
@@ -12,7 +13,7 @@ public class Addition extends Formula {
 	}
 
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		return left.evaluate(variableBinder) + right.evaluate(variableBinder);
 	}
 	
@@ -55,7 +56,7 @@ public class Addition extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		left.bindVariablesAsConstants(series, variableBinder);
 		right.bindVariablesAsConstants(series, variableBinder);
 	}

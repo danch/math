@@ -1,6 +1,7 @@
 package danch.math.formula;
 
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Negate extends Formula {
 	Formula operand;
@@ -10,7 +11,7 @@ public class Negate extends Formula {
 	}
 
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		return -operand.evaluate(variableBinder);
 	}
 
@@ -41,7 +42,7 @@ public class Negate extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		operand.bindVariablesAsConstants(series, variableBinder);
 	}
 }

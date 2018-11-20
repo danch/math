@@ -2,6 +2,7 @@ package danch.math.formula;
 
 import java.util.ArrayList;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 
 public class Power extends Formula {
@@ -25,7 +26,7 @@ public class Power extends Formula {
 		return "("+baseString + ")" + expString;
 	}
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		return Math.pow(base.evaluate(variableBinder), exponent.evaluate(variableBinder));
 	}
 
@@ -96,7 +97,7 @@ public class Power extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		base.bindVariablesAsConstants(series, variableBinder);
 		exponent.bindVariablesAsConstants(series, variableBinder);
 	}

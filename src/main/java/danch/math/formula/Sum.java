@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Sum extends Formula {
@@ -27,7 +28,7 @@ public class Sum extends Formula {
 		}
 	}
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		return summands.stream().map(formula -> formula.evaluate(variableBinder)).reduce((left, right) -> left + right).get();
 	}
 
@@ -76,7 +77,7 @@ public class Sum extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		summands.forEach(formula -> formula.bindVariablesAsConstants(series, variableBinder));
 	}
 

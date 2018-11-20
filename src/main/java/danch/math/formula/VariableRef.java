@@ -2,25 +2,14 @@ package danch.math.formula;
 
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class VariableRef extends Formula {
-	private char seriesSymbol;
-	private int[] indices;
-	private Optional<Double> boundValue = Optional.empty();
-
-	public VariableRef(char symbol, int[] indices) {
-		this.seriesSymbol = symbol;
-		this.indices = indices;
-	}
-	
-	public VariableRef(char symbol, int index) {
-		this.seriesSymbol = symbol;
-		this.indices = new int[] { index };
-	}
+	protected char seriesSymbol;
+	protected Optional<Double> boundValue = Optional.empty();
 	
 	public VariableRef(char symbol) {
 		this.seriesSymbol = symbol;
-		this.indices = new int[] {0};
 	}
 
 	public char getSeriesSymbol() {
@@ -31,55 +20,11 @@ public class VariableRef extends Formula {
 		this.seriesSymbol = seriesSymbol;
 	}
 
-	public int getSeriesIndex() {
-		return indices[0];
-	}
-
-	public void setSeriesIndex(int seriesIndex) {
-		this.indices[0] = seriesIndex;
-	}
-
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
-		return boundValue.orElseGet(() -> variableBinder.apply(seriesSymbol, indices));
+	public double evaluate(Function<VariableRef, Double> variableBinder) {
+		return boundValue.orElseGet(() -> variableBinder.apply(this));
 	}
 
-	private String seriesToString() {
-	    StringBuffer buffer = new StringBuffer();
-	    for (int i: indices) {
-	        if (buffer.length()>0)
-	            buffer.append(' ');
-	        buffer.append(i);
-        }
-        return buffer.toString();
-    }
-	@Override
-	public String toString() {
-		return boundValue.map(val->Literal.format.format(val)).orElse(""+seriesSymbol+seriesToString());
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		//note: this is an OO equals, not a mathematic equals operator
-		if (!(other instanceof VariableRef)) {
-			return false;
-		}
-
-		VariableRef rhs = (VariableRef)other;
-
-		if (indices.length != rhs.indices.length)
-			return false;
-
-		if (seriesSymbol != rhs.seriesSymbol)
-		    return false;
-
-		for (int i=0;i<indices.length;i++) {
-		    if (indices[i]!=rhs.indices[i]) {
-		        return false;
-            }
-        }
-        return true;
-	}
 
 	@Override
 	public Formula differentiate(VariableRef withRespectTo) {
@@ -103,9 +48,9 @@ public class VariableRef extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		if (series == this.seriesSymbol) {
-			double value = variableBinder.apply(seriesSymbol, indices);
+			double value = variableBinder.apply(this);
 			boundValue=Optional.of(value);
 		}
 	}
