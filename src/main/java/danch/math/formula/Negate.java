@@ -1,5 +1,6 @@
 package danch.math.formula;
 
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -15,6 +16,14 @@ public class Negate extends Formula {
 		return -operand.evaluate(variableBinder);
 	}
 
+
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        List<Formula> collection = new ArrayList<Formula>();
+        collection.addAll(operand.postOrderTraversal());
+        collection.add(this);
+        return collection;
+    }
 	
 	@Override
 	public String toString() {

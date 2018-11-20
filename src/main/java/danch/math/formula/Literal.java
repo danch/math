@@ -1,6 +1,8 @@
 package danch.math.formula;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -50,4 +52,9 @@ public class Literal extends Formula {
 	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
 		//No-op for a constant
 	}
+
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        return Arrays.asList(this);
+    }
 }

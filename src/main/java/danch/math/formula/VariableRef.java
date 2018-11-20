@@ -1,5 +1,7 @@
 package danch.math.formula;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -42,7 +44,12 @@ public class VariableRef extends Formula {
 		return boundValue.isPresent();
 	}
 
-	@Override
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        return Arrays.asList(this);
+    }
+
+    @Override
 	public Formula algebraicMultiply(VariableRef variableRef) {
 		return new Product(variableRef, this);
 	}

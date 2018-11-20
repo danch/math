@@ -1,5 +1,8 @@
 package danch.math.formula;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -37,6 +40,15 @@ public class Addition extends Formula {
 		}
 		return new Addition(newLeft, newRight);
 	}
+
+	@Override
+    public Collection<Formula> postOrderTraversal() {
+	    Collection<Formula> children = new ArrayList<>();
+	    children.addAll(left.postOrderTraversal());
+        children.addAll(right.postOrderTraversal());
+        children.add(this);
+        return children;
+    }
 
 	@Override
 	public boolean isInvariant(VariableRef withRespectTo) {

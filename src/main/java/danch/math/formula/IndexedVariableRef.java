@@ -57,7 +57,7 @@ public class IndexedVariableRef extends VariableRef {
         StringBuffer buffer = new StringBuffer();
         buffer.append('[');
         for (int i: indices) {
-            if (i!=0)
+            if (buffer.length()>1)
                 buffer.append(',');
             buffer.append(i);
         }

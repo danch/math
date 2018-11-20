@@ -80,7 +80,15 @@ public class Product extends Formula {
 		return components.stream().map(formula -> formula.isConstant()).reduce(true, (left, right) -> left && right);
 	}
 
-	@Override
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        Collection<Formula> children = components.stream().flatMap(f -> f.postOrderTraversal().stream()).
+                collect(Collectors.toCollection(ArrayList::new));
+        children.add(this);
+        return children;
+    }
+
+    @Override
 	public Formula algebraicMultiply(VariableRef variableRef) {
 		ArrayList<Formula> newList = new ArrayList<>();
 		newList.add(variableRef);

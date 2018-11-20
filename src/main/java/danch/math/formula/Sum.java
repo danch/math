@@ -1,5 +1,6 @@
 package danch.math.formula;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -69,7 +70,15 @@ public class Sum extends Formula {
 		return summands.stream().map(formula -> formula.isConstant()).reduce(true, (left, right) -> left && right);
 	}
 
-	@Override
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+	    Collection<Formula> children = summands.stream().flatMap(f -> f.postOrderTraversal().stream()).
+                collect(Collectors.toCollection(ArrayList::new));
+	    children.add(this);
+	    return children;
+    }
+
+    @Override
 	public Formula algebraicMultiply(VariableRef variableRef) {
 		List<Formula> multiplied = summands.stream().map(formula->formula.algebraicMultiply(variableRef)).
 				collect(Collectors.toList());

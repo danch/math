@@ -1,5 +1,8 @@
 package danch.math.formula;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -17,6 +20,15 @@ public class Division extends Formula {
 	public double evaluate(Function<VariableRef, Double> variableBinder) {
 		return numerator.evaluate(variableBinder) / denominator.evaluate(variableBinder);
 	}
+
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        Collection<Formula> children = new ArrayList<>();
+        children.addAll(numerator.postOrderTraversal());
+        children.addAll(denominator.postOrderTraversal());
+        children.add(this);
+        return children;
+    }
 	
 	@Override
 	public String toString() {

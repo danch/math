@@ -10,6 +10,7 @@ public abstract class Formula implements Cloneable {
 	public abstract Formula differentiate(VariableRef withRespectTo);
 	public abstract boolean isInvariant(VariableRef withRespectTo);
 	public abstract boolean isConstant();
+	public abstract Collection<Formula> postOrderTraversal();
 	
 	public Formula cloneValue() {
 		try {

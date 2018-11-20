@@ -1,5 +1,7 @@
 package danch.math.formula;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -75,7 +77,18 @@ public class Term extends Formula {
 	public boolean isConstant() {
 		return !variable.isPresent();
 	}
-	@Override
+
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        Collection<Formula> children = new ArrayList<>();
+        coefficient.ifPresent(children::add);
+        variable.ifPresent(children::add);
+        exponent.ifPresent(children::add);
+        children.add(this);
+        return children;
+    }
+
+    @Override
 	public Formula algebraicMultiply(VariableRef variableRef) {
 		Formula newCoefficient = coefficient.map(var -> var.algebraicMultiply(variableRef)).orElse(variableRef);
 		return new Term(Optional.of(newCoefficient), variable, exponent);

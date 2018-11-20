@@ -1,6 +1,9 @@
 package danch.math.formula;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -80,6 +83,15 @@ public class Power extends Formula {
 			throw new IllegalStateException("Unsupported attempt to differentiate a Power with invariant base and variant power");
 		}
 	}
+
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        List<Formula> collection = new ArrayList<>();
+        collection.addAll(base.postOrderTraversal());
+        collection.addAll(exponent.postOrderTraversal());
+        collection.add(this);
+        return collection;
+    }
 
 	@Override
 	public boolean isInvariant(VariableRef withRespectTo) {
