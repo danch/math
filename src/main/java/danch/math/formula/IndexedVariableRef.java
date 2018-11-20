@@ -1,5 +1,7 @@
 package danch.math.formula;
 
+import java.util.Arrays;
+
 /** a variable ref representing a member of a series indexed by integers */
 public class IndexedVariableRef extends VariableRef {
     private int[] indices;
@@ -16,6 +18,10 @@ public class IndexedVariableRef extends VariableRef {
 
     public int getSeriesIndex() {
         return indices[0];
+    }
+
+    public int[] getIndices() {
+        return Arrays.copyOf(indices, indices.length);
     }
 
     public void setSeriesIndex(int seriesIndex) {
