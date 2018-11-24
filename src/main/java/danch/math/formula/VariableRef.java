@@ -50,6 +50,11 @@ public class VariableRef extends Formula {
     }
 
     @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
+
+    @Override
 	public Formula algebraicMultiply(VariableRef variableRef) {
 		return new Product(variableRef, this);
 	}

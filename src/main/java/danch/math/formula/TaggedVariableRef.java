@@ -14,6 +14,10 @@ public class TaggedVariableRef extends VariableRef {
         this.orderedTags = new String[] { tag };
     }
 
+    public String[] getTags() {
+        return orderedTags.clone();
+    }
+
     /** do I really want this? */
     public String getTag() {
         return orderedTags[0];
@@ -41,6 +45,15 @@ public class TaggedVariableRef extends VariableRef {
             return false;
 
         for (int i = 0; i< orderedTags.length; i++) {
+            if (orderedTags[i] == null && rhs.orderedTags[i] == null) {
+                continue;
+            }
+            if (orderedTags[i] == null && rhs.orderedTags[i] != null) {
+                return false;
+            }
+            if (orderedTags[i] != null && rhs.orderedTags[i] == null) {
+                return false;
+            }
             if (!orderedTags[i].equals(rhs.orderedTags[i])) {
                 return false;
             }
