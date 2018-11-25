@@ -23,7 +23,7 @@ public class TestPower {
 		Formula wholeFormula = new Sum(termOne, termTwo);
 		
 		Formula dydx0 = wholeFormula.differentiate(new IndexedVariableRef('x', 0));
-		double value = dydx0.evaluate((variableRef) -> 4.0);
+		double value = dydx0.evaluate(new SimpleVariableBinder(4.0));
 		assertEquals(8.0, value, 0.00001);
 	}
 

@@ -21,7 +21,7 @@ public class Power extends Formula {
 	public String toString() {
 		String baseString = base.toString();
 		String expString;
-		if (exponent.isConstant() && exponent.evaluate(Formula::emptyVariableBinder)==1.0) {
+		if (exponent.isConstant() && exponent.evaluate(Formula.emptyVariableBinder)==1.0) {
 			expString =  "";
 		} else {
 			expString = "^"+exponent.toString();
@@ -29,7 +29,7 @@ public class Power extends Formula {
 		return "("+baseString + ")" + expString;
 	}
 	@Override
-	public double evaluate(Function<VariableRef, Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return Math.pow(base.evaluate(variableBinder), exponent.evaluate(variableBinder));
 	}
 
@@ -42,12 +42,12 @@ public class Power extends Formula {
 		if (!base.isInvariant(withRespectTo)) {
 			//It's a nice normal power term
 			Formula newCoefficient = exponent.cloneValue();
-			Formula newExponent = new Addition(exponent, new Literal(-1));
+			Formula newExponent = new Sum(exponent, new Literal(-1));
 			if (newExponent.isConstant()) {
-				newExponent = new Literal(newExponent.evaluate(Formula::emptyVariableBinder));
+				newExponent = new Literal(newExponent.evaluate(Formula.emptyVariableBinder));
 			}
-			if (newCoefficient.isConstant() && newCoefficient.evaluate(Formula::emptyVariableBinder)==1.0) {
-				if (newExponent.isConstant() && newExponent.evaluate(Formula::emptyVariableBinder)==0.0) {
+			if (newCoefficient.isConstant() && newCoefficient.evaluate(Formula.emptyVariableBinder)==1.0) {
+				if (newExponent.isConstant() && newExponent.evaluate(Formula.emptyVariableBinder)==0.0) {
 					return new Literal(1.0);
 				} else {
 					return new Power(base, newExponent);
@@ -58,7 +58,7 @@ public class Power extends Formula {
 					Formula baseDerivative = base.differentiate(withRespectTo);
 					ArrayList<Formula> product = new ArrayList<>();
 					product.add(newCoefficient);
-					if (newExponent.isConstant() && newExponent.evaluate(Formula::emptyVariableBinder)==1.0) {
+					if (newExponent.isConstant() && newExponent.evaluate(Formula.emptyVariableBinder)==1.0) {
 						product.add(base);
 					} else {
 						product.add(new Power(base, newExponent));
@@ -68,10 +68,10 @@ public class Power extends Formula {
 					}
 					return new Product(product);
 				} else {
-					if (newExponent.isConstant() && newExponent.evaluate(Formula::emptyVariableBinder)==0.0) {
+					if (newExponent.isConstant() && newExponent.evaluate(Formula.emptyVariableBinder)==0.0) {
 						return newCoefficient;
 					} else {
-						if (newExponent.isConstant() && newExponent.evaluate(Formula::emptyVariableBinder)==1.0) {
+						if (newExponent.isConstant() && newExponent.evaluate(Formula.emptyVariableBinder)==1.0) {
 							return new Product(newCoefficient, base);
 						} else {
 							return new Product(newCoefficient, new Power(base, newExponent));
@@ -109,7 +109,7 @@ public class Power extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		base.bindVariablesAsConstants(series, variableBinder);
 		exponent.bindVariablesAsConstants(series, variableBinder);
 	}

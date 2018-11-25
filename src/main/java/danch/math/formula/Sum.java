@@ -29,7 +29,7 @@ public class Sum extends Formula {
 		}
 	}
 	@Override
-	public double evaluate(Function<VariableRef, Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return summands.stream().map(formula -> formula.evaluate(variableBinder)).reduce((left, right) -> left + right).get();
 	}
 
@@ -45,7 +45,7 @@ public class Sum extends Formula {
 					return formula.differentiate(withRespectTo);
 				}
 			}).filter(formula -> {
-					return !(formula == null || (formula.isConstant() && formula.evaluate(Formula::emptyVariableBinder) == 0.0));
+					return !(formula == null || (formula.isConstant() && formula.evaluate(Formula.emptyVariableBinder) == 0.0));
 				}).
 				collect(Collectors.toCollection(ArrayList::new));
 		if (newList.isEmpty()) {
@@ -86,7 +86,7 @@ public class Sum extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		summands.forEach(formula -> formula.bindVariablesAsConstants(series, variableBinder));
 	}
 

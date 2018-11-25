@@ -12,7 +12,7 @@ public class Negate extends Formula {
 	}
 
 	@Override
-	public double evaluate(Function<VariableRef, Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return -operand.evaluate(variableBinder);
 	}
 
@@ -51,7 +51,7 @@ public class Negate extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		operand.bindVariablesAsConstants(series, variableBinder);
 	}
 }

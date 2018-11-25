@@ -13,7 +13,7 @@ public class Literal extends Formula {
 		this.value = val;
 	}
 	@Override
-	public double evaluate(Function<VariableRef, Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return value;
 	}
 
@@ -49,7 +49,7 @@ public class Literal extends Formula {
 		return new Product(this, variableRef);
 	}
 	@Override
-	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		//No-op for a constant
 	}
 

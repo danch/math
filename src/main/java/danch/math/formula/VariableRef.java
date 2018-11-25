@@ -23,8 +23,8 @@ public class VariableRef extends Formula {
 	}
 
 	@Override
-	public double evaluate(Function<VariableRef, Double> variableBinder) {
-		return boundValue.orElseGet(() -> variableBinder.apply(this));
+	public double evaluate(VariableBinder variableBinder) {
+		return boundValue.orElseGet(() -> variableBinder.getValue(this));
 	}
 
 
@@ -60,9 +60,9 @@ public class VariableRef extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		if (series == this.seriesSymbol) {
-			double value = variableBinder.apply(this);
+			double value = variableBinder.getValue(this);
 			boundValue=Optional.of(value);
 		}
 	}

@@ -17,7 +17,7 @@ public class Division extends Formula {
 	}
 
 	@Override
-	public double evaluate(Function<VariableRef, Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return numerator.evaluate(variableBinder) / denominator.evaluate(variableBinder);
 	}
 
@@ -77,7 +77,7 @@ public class Division extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		numerator.bindVariablesAsConstants(series, variableBinder);
 		denominator.bindVariablesAsConstants(series, variableBinder);
 	}

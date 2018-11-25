@@ -6,7 +6,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public abstract class Formula implements Cloneable {
-	public abstract double evaluate(Function<VariableRef, Double> variableBinder);
+	public abstract double evaluate(VariableBinder variableBinder);
 	public abstract Formula differentiate(VariableRef withRespectTo);
 	public abstract boolean isInvariant(VariableRef withRespectTo);
 	public abstract boolean isConstant();
@@ -20,11 +20,16 @@ public abstract class Formula implements Cloneable {
 		}
 		return null;//will never happen, but CloneNotSupported is a checked exception 
 	}
-	public static double emptyVariableBinder(VariableRef variable) {
-		throw new IllegalStateException("emptyVariableBinder called - this should only be used when an expression is known to be constant");
-	}
+	public static VariableBinder emptyVariableBinder = new VariableBinder() {
+		public double getValue(VariableRef forVar) {
+			throw new IllegalStateException("emptyVariableBinder called - this should only be used when an expression is known to be constant");
+		}
+		public double[] getVectorValue(VariableRef forVar) {
+			throw new IllegalStateException("emptyVariableBinder called - this should only be used when an expression is known to be constant");
+		}
+	};
 	public abstract Formula algebraicMultiply(VariableRef variableRef);
-	public abstract void bindVariablesAsConstants(char series, Function<VariableRef, Double> variableBinder);
+	public abstract void bindVariablesAsConstants(char series, VariableBinder variableBinder);
 	
 	public static Formula[] getGradiant(Formula f, List<VariableRef> variables) {
 		Formula[] gradiant = new Formula[variables.size()];
