@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class DotProduct extends Formula {
+    public static final char DOT_PRODUCT_SYMBOL = '\u2219';
+
     private VariableRef leftRange;
     private VariableRef rightRange;
 
@@ -52,8 +54,8 @@ public class DotProduct extends Formula {
     @Override
     public Collection<Formula> postOrderTraversal() {
         List<Formula> collection = new ArrayList<>();
-        collection.add(leftRange);
-        collection.add(rightRange);
+        collection.addAll(leftRange.postOrderTraversal());
+        collection.addAll(rightRange.postOrderTraversal());
         collection.add(this);
         return collection;
     }
@@ -71,5 +73,9 @@ public class DotProduct extends Formula {
         if (rightRange.getSeriesSymbol()==series) {
             boundRightValue = Optional.of(variableBinder.getVectorValue(rightRange));
         }
+    }
+    @Override
+    public String toString() {
+        return "("+leftRange.toString()+DOT_PRODUCT_SYMBOL+rightRange.toString()+")";
     }
 }

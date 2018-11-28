@@ -1,5 +1,6 @@
 package danch.math.formula;
 
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
@@ -60,5 +61,9 @@ public class SumRange extends Formula {
             double value = evaluate(variableBinder);
             this.boundValue = Optional.of(value);
         }
+    }
+    @Override
+    public String toString() {
+        return "SumRange("+rangeVar.toString()+")";
     }
 }
