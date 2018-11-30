@@ -5,18 +5,18 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Min extends Formula {
+public class Max extends Formula {
     private Formula left;
     private Formula right;
 
-    public Min(Formula left, Formula right) {
+    public Max(Formula left, Formula right) {
         this.left = left;
         this.right = right;
     }
 
     @Override
     public double evaluate(VariableBinder variableBinder) {
-        return Math.min(left.evaluate(variableBinder), right.evaluate(variableBinder));
+        return Math.max(left.evaluate(variableBinder), right.evaluate(variableBinder));
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Min extends Formula {
 
     @Override
     public String toString() {
-        String buff = "Min(" +
+        String buff = "Max(" +
                 left.toString() +
                 ',' +
                 right.toString() +
