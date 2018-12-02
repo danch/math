@@ -1,6 +1,8 @@
 package danch.math.formula;
 
+import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Negate extends Formula {
 	Formula operand;
@@ -10,10 +12,18 @@ public class Negate extends Formula {
 	}
 
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return -operand.evaluate(variableBinder);
 	}
 
+
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        List<Formula> collection = new ArrayList<Formula>();
+        collection.addAll(operand.postOrderTraversal());
+        collection.add(this);
+        return collection;
+    }
 	
 	@Override
 	public String toString() {
@@ -41,7 +51,7 @@ public class Negate extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		operand.bindVariablesAsConstants(series, variableBinder);
 	}
 }

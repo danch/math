@@ -1,7 +1,10 @@
 package danch.math.formula;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Literal extends Formula {
 	double value;
@@ -10,7 +13,7 @@ public class Literal extends Formula {
 		this.value = val;
 	}
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return value;
 	}
 
@@ -46,7 +49,12 @@ public class Literal extends Formula {
 		return new Product(this, variableRef);
 	}
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		//No-op for a constant
 	}
+
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+        return Arrays.asList(this);
+    }
 }

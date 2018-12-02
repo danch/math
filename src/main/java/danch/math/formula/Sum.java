@@ -1,9 +1,11 @@
 package danch.math.formula;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Sum extends Formula {
@@ -27,7 +29,7 @@ public class Sum extends Formula {
 		}
 	}
 	@Override
-	public double evaluate(BiFunction<Character, int[], Double> variableBinder) {
+	public double evaluate(VariableBinder variableBinder) {
 		return summands.stream().map(formula -> formula.evaluate(variableBinder)).reduce((left, right) -> left + right).get();
 	}
 
@@ -43,7 +45,7 @@ public class Sum extends Formula {
 					return formula.differentiate(withRespectTo);
 				}
 			}).filter(formula -> {
-					return !(formula == null || (formula.isConstant() && formula.evaluate(Formula::emptyVariableBinder) == 0.0));
+					return !(formula == null || (formula.isConstant() && formula.evaluate(Formula.emptyVariableBinder) == 0.0));
 				}).
 				collect(Collectors.toCollection(ArrayList::new));
 		if (newList.isEmpty()) {
@@ -68,7 +70,15 @@ public class Sum extends Formula {
 		return summands.stream().map(formula -> formula.isConstant()).reduce(true, (left, right) -> left && right);
 	}
 
-	@Override
+    @Override
+    public Collection<Formula> postOrderTraversal() {
+	    Collection<Formula> children = summands.stream().flatMap(f -> f.postOrderTraversal().stream()).
+                collect(Collectors.toCollection(ArrayList::new));
+	    children.add(this);
+	    return children;
+    }
+
+    @Override
 	public Formula algebraicMultiply(VariableRef variableRef) {
 		List<Formula> multiplied = summands.stream().map(formula->formula.algebraicMultiply(variableRef)).
 				collect(Collectors.toList());
@@ -76,7 +86,7 @@ public class Sum extends Formula {
 	}
 
 	@Override
-	public void bindVariablesAsConstants(char series, BiFunction<Character, int[], Double> variableBinder) {
+	public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
 		summands.forEach(formula -> formula.bindVariablesAsConstants(series, variableBinder));
 	}
 
