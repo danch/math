@@ -5,18 +5,21 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Min extends Formula {
-    private Formula left;
-    private Formula right;
+public class Sign extends Formula {
+    private Formula value;
 
-    public Min(Formula left, Formula right) {
-        this.left = left;
-        this.right = right;
+    public Sign(Formula value) {
+        this.value = value;
     }
 
     @Override
     public double evaluate(VariableBinder variableBinder) {
-        return Math.min(left.evaluate(variableBinder), right.evaluate(variableBinder));
+        double val = value.evaluate(variableBinder);
+        if (val < 0.0) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     @Override
@@ -26,20 +29,18 @@ public class Min extends Formula {
 
     @Override
     public boolean isInvariant(VariableRef withRespectTo) {
-        return left.isInvariant(withRespectTo) && right.isInvariant(withRespectTo);
+        return value.isInvariant(withRespectTo);
     }
 
     @Override
     public boolean isConstant() {
-        return left.isConstant() && right.isConstant();
+        return value.isConstant();
     }
 
     @Override
     public Collection<Formula> postOrderTraversal() {
-
         ArrayList<Formula> list = new ArrayList<>();
-        list.addAll(left.postOrderTraversal());
-        list.addAll(right.postOrderTraversal());
+        list.addAll(value.postOrderTraversal());
         list.add(this);
         return list;
     }
@@ -51,16 +52,13 @@ public class Min extends Formula {
 
     @Override
     public void bindVariablesAsConstants(char series, VariableBinder variableBinder) {
-        left.bindVariablesAsConstants(series, variableBinder);
-        right.bindVariablesAsConstants(series, variableBinder);
+        value.bindVariablesAsConstants(series, variableBinder);
     }
 
     @Override
     public String toString() {
-        String buff = "Min(" +
-                left.toString() +
-                ',' +
-                right.toString() +
+        String buff = "Sign(" +
+                value.toString() +
                 ')';
         return buff;
     }

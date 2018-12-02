@@ -24,7 +24,7 @@ public class DotProduct extends Formula {
         double[] rightVector = boundRightValue.orElse(variableBinder.getVectorValue(rightRange));
 
         if (leftVector.length != rightVector.length) {
-            throw new IllegalArgumentException("Vectors represented by "+leftVector+" and "+rightVector+
+            throw new IllegalArgumentException("Vectors represented by "+leftRange+" and "+rightRange+
                     " are of different dimensions");
         }
 
