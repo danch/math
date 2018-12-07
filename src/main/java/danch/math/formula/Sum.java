@@ -30,7 +30,13 @@ public class Sum extends Formula {
 	}
 	@Override
 	public double evaluate(VariableBinder variableBinder) {
-		return summands.stream().map(formula -> formula.evaluate(variableBinder)).reduce((left, right) -> left + right).get();
+		return summands.stream().map(formula -> formula.evaluate(variableBinder)).
+				reduce((left, right) -> {
+					if (left.isInfinite() || right.isInfinite()) {
+						throw new IllegalArgumentException("Infinite member of a series");
+					}
+					return left + right;
+				}).get();
 	}
 
 	@Override

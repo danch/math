@@ -28,7 +28,13 @@ public class Product extends Formula {
 	}
 	@Override
 	public double evaluate(VariableBinder variableBinder) {
-		return components.stream().map(formula -> formula.evaluate(variableBinder)).reduce((left, right) -> left * right).get();
+		return components.stream().map(formula -> formula.evaluate(variableBinder)).
+				reduce((left, right) -> {
+					if (left.isInfinite() || right.isInfinite()) {
+						throw new IllegalArgumentException("Infinite member of a product");
+					}
+					return left * right;
+				}).get();
 	}
 
 	@Override

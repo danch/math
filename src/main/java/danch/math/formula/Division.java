@@ -18,7 +18,16 @@ public class Division extends Formula {
 
 	@Override
 	public double evaluate(VariableBinder variableBinder) {
-		return numerator.evaluate(variableBinder) / denominator.evaluate(variableBinder);
+		Double den = denominator.evaluate(variableBinder);
+		if (den == 0) {
+			throw new IllegalArgumentException("Denominator is 0 (from '"+denominator.toString()+"')");
+		}
+		Double num = numerator.evaluate(variableBinder);
+		if (num.isInfinite() || den.isInfinite()) {
+			throw new IllegalArgumentException("Infinate numerator or denominator in ("+
+					numerator.toString()+")/("+denominator.toString()+")");
+		}
+		return numerator.evaluate(variableBinder) / den;
 	}
 
     @Override
