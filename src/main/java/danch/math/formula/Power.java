@@ -30,7 +30,13 @@ public class Power extends Formula {
 	}
 	@Override
 	public double evaluate(VariableBinder variableBinder) {
-		return Math.pow(base.evaluate(variableBinder), exponent.evaluate(variableBinder));
+	    double baseValue = base.evaluate(variableBinder);
+	    double exponentValue = exponent.evaluate(variableBinder);
+		double result = Math.pow(baseValue, exponentValue);
+		if (Double.isNaN(result)) {
+			throw new IllegalStateException("Power resulted in NaN (base="+baseValue+", exponent="+exponentValue+")");
+		}
+		return result;
 	}
 
 	@Override
